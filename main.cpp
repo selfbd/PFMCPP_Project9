@@ -110,8 +110,27 @@ void variadicHelper(T&& first)
     Wrapper wrapper( std::forward<T>(first) );
     wrapper.print();    
 }
+void variadicHelper(){}
+
+void extraTests()
+{
+    std::cout << std::endl;
+    std::cout << "Extra Tests" << std::endl;
+
+    // Exercise helper calls with 1 argument
+    variadicHelper( 5 );
+    variadicHelper( std::string("fries") );
+    variadicHelper( Point{3.f, 0.14f} );
+
+    // Exercise helper call with no arguments
+    variadicHelper();
+}
 
 int main()
 {
+    // Exercise variadic template
     variadicHelper( 3, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
+
+    extraTests();
 }
+
