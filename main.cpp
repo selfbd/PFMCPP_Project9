@@ -70,14 +70,44 @@ struct Wrapper
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
 
+ /*
+ 5) add a print() function to the Wrapper stub.
+ */
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val << ")" << std::endl;
+    }
 private:
     Type val;
+};
+
+/*
+8) You will need to specialize the Wrapper class template to work with the Point class.
+*/
+
+template<>
+struct Wrapper<Point>
+{
+    Wrapper(Point&& t) : val(std::move(t)) 
+    { 
+        std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
+    }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;
+    }
+
+private:
+    Point val;
 };
 
 template<typename T, typename ...Args>
 void variadicHelper(T&& first, Args&& ... everythingElse)
 {
     Wrapper wrapper( std::forward<T>(first) );
+    wrapper.print();
     variadicHelper( std::forward<Args>(everythingElse)... );
 }
 
@@ -89,6 +119,7 @@ template<typename T>
 void variadicHelper(T&& first)
 {
     Wrapper wrapper( std::forward<T>(first) );
+    wrapper.print();    
 }
 
 int main()
